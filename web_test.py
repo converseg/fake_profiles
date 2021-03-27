@@ -12,12 +12,13 @@ import json
 #   'sauce:options': {}
 # }
 
-# testing profile: vw829vbs.default-release on FF87
+# testing profile on main PC: haokfc4p.default-release
+# testing profile on old PC: vw829vbs.default-release on FF87
 # profile 1: nstcxnhb.default-release-4 on FF81
 
-binary_path = 'C:/Program Files/Mozilla Firefox87/firefox.exe' # my testing installation
+binary_path = 'C:/Program Files/Mozilla Firefox/firefox.exe' # my testing installation
 ff_binary = webdriver.firefox.firefox_binary.FirefoxBinary(firefox_path=binary_path)
-profile_path = 'C:\\Users\\conve_000\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\vw829vbs.default-release'
+profile_path = 'C:\\Users\\gconverse\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\haokfc4p.default-release'
 ff_profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory=profile_path)
 
 print('ff_profile path: ' + ff_profile.path)
