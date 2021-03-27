@@ -1,0 +1,5 @@
+firefox_profile location: C:\Users\gconverse\Desktop\privacy_law\project\fake_profiles\ff_profiles\ff_profile_3
+
+Firefox version: 84
+
+TrackThis profile: tbd
