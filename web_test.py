@@ -5,17 +5,26 @@ import random
 import numpy as np
 import json
 
-capabilities = {
-  'browserName': 'firefox',
-  'browserVersion': '68.0',
-  'platformName': 'Windows 10',
-  'sauce:options': {}
-}
+# capabilities = {
+#   'browserName': 'firefox',
+#   'browserVersion': '68.0',
+#   'platformName': 'Windows 10',
+#   'sauce:options': {}
+# }
 
-# path = 'C://Users//gconverse//Desktop//comp_security'# //geckodriver'
+# testing profile: vw829vbs.default-release on FF87
+# profile 1: nstcxnhb.default-release-4 on FF81
 
-browser = webdriver.Firefox() #browser_profile=None
-#does using different browser_profiles reset cookies?
+binary_path = 'C:/Program Files/Mozilla Firefox87/firefox.exe' # my testing installation
+ff_binary = webdriver.firefox.firefox_binary.FirefoxBinary(firefox_path=binary_path)
+profile_path = 'C:\\Users\\conve_000\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\vw829vbs.default-release'
+ff_profile = webdriver.firefox.firefox_profile.FirefoxProfile(profile_directory=profile_path)
+
+print('ff_profile path: ' + ff_profile.path)
+
+
+browser = webdriver.Firefox(firefox_binary=ff_binary, firefox_profile=ff_profile) #browser_profile=None
+# this isn't actually getting me the FF profile or any browsing history
 
 # things that could be useful
 #function browser.add_cookie(cookie_dict) # do I need to save all cookies, then add them?
@@ -23,36 +32,38 @@ browser = webdriver.Firefox() #browser_profile=None
 #function browser.delete_all_cookies()
 #function find_element(by='id') 
 
+print('set profile path: ' + profile_path)
+print('temp profile path: ' + browser.firefox_profile.path)
 
 #search for a product then click on something
 browser.get('https://youtube.com')
 yt_search = browser.find_elements_by_name('search_query')[0]
 yt_search.send_keys('tennis')
 yt_search.submit()
-time.sleep(3)
+time.sleep(30)
 videos = browser.find_elements_by_id('video-title')
 videos[random.randrange(5)].click()
 time.sleep(3)
-c1 = browser.get_cookies()
-print("First YT visit cookies:")
-print(c1)
-print('\n')
-#go to a specific channel and click on a random video or two
-browser.get('https://www.google.com/search?q=pizza')
-browser.get('https://amazon.com')
-# set up an email address for them and visit it or send an email
-time.sleep(2)
-browser.get('https://youtube.com')
-yt_search = browser.find_elements_by_name('search_query')[0]
-yt_search.send_keys('pizza')
-yt_search.submit()
-time.sleep(3)
-videos = browser.find_elements_by_id('video-title')
-videos[random.randrange(5)].click()
-time.sleep(3)
-c2 = browser.get_cookies()
-print("second YT visit cookies:")
-print(c2)
+# c1 = browser.get_cookies()
+# print("First YT visit cookies:")
+# print(c1)
+# print('\n')
+# #go to a specific channel and click on a random video or two
+# browser.get('https://www.google.com/search?q=pizza')
+# browser.get('https://amazon.com')
+# # set up an email address for them and visit it or send an email
+# time.sleep(2)
+# browser.get('https://youtube.com')
+# yt_search = browser.find_elements_by_name('search_query')[0]
+# yt_search.send_keys('pizza')
+# yt_search.submit()
+# time.sleep(3)
+# videos = browser.find_elements_by_id('video-title')
+# videos[random.randrange(5)].click()
+# time.sleep(3)
+# c2 = browser.get_cookies()
+# print("second YT visit cookies:")
+# print(c2)
 
 # all profiles visit zillow or show interest in purchasing a home, getting a loan
 

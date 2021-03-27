@@ -1,0 +1,13 @@
+Firefox account
+email: tixivom283@bombaya.com
+password: fake_password (same for all)
+age: 30
+sync: history and preferences
+settings: General -- don't check if FF is default browser -- open links in tabs, not window 
+	Privacy & Security -- Custom (none) 
+
+firefox profiles found at: C:\Users\conve_000\AppData\Local\Mozilla\Firefox\Profiles
+
+TrackThis profile: 
+
+
