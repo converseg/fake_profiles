@@ -7,6 +7,8 @@ import os
 import json
 import pickle
 
+### This file is no longer in use -- could delete later
+
 # search loan, home, mortgage info
 def search_loans(browser):
     browser.get('https://zillow.com')
