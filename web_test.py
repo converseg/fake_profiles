@@ -44,7 +44,7 @@ print('now copy contents to save browsing history')
 cwd = os.getcwd()
 original_profile = cwd+'\\ff_profiles\\test_profile'
 print('saving profile ' + temp_profile_path + ' to ' + original_profile)
-os.system('xcopy ' + temp_profile_path + ' ' + original_profile + '/Y /G /K /R /E /S /C /H /Q')
+os.system('xcopy ' + temp_profile_path + ' ' + original_profile + ' /Y /G /K /R /E /S /C /H /Q')
 print('files should be copied')
 
 time.sleep(5)

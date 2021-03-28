@@ -43,6 +43,9 @@ class Profile():
         self.ff_binary = webdriver.firefox.firefox_binary.FirefoxBinary(firefox_path=self.ff_bin_path)
         # TODO: is it best to make the driver an attribute, or pass it into functions?
         self.driver = None
+        print('Using profile at ' + self.ff_profile_dir)
+        print('Assuming personality ' + self.personality)
+        print('**************')
         
 
     def start_browser(self):
@@ -53,12 +56,11 @@ class Profile():
     def visit_sites(self):
         if self.driver is None:
             self.start_browser()
-        #driver = webdriver.Firefox(firefox_profile=self.ff_profile, firefox_binary=self.ff_binary)
         if self.profile_num < 5: # profile 5 doesn't build up that browsing history
             self.visit_trackthis()
             time.sleep(5)
         self.visit_loan_sites()
-        time.sleep(15)
+        time.sleep(5)
         self.save_browsing_history()
         time.sleep(5)
         self.end_session()
@@ -84,21 +86,47 @@ class Profile():
     def visit_loan_sites(self):
         print('search about loans etc')
         self.driver.get('https://www.bankrate.com/calculators/mortgages/mortgage-calculator.aspx') # bankrate might be a good fintech lender to look at too
+        # visit the site for each financialy institution and navigate to home mortgage
+        # Wells Fargo
+
+        # JP Morgan Chase
+
+        # Bank of America
+
+        # QuickenLoans
+        self.driver.get('https://quickenloans.com') # do I need to do any sort of time.sleep on each page?
+        self.driver.get('https://www.quickenloans.com/mortgage-rates?qlsource=nav')
+        self.driver.get('https://rocketmortgage.com')
+        self.driver.get('https://www.rocketmortgage.com/l2/bamv2/step/1?LoanPurpose=purchase&qls=RBA_rocketme.0000000018') # is going to the URL the same as clicking the link?
+
+        # LoanDepot
+
+        # United Shore
+
+        # go to zillow and look at homes
+        self.driver.get('https://zillow.com')
+        search_bar = self.driver.find_element_by_class_name('react-autosuggest__container.num-rows-5')
+        #search_bar.send_keys('52246') # TODO: find out a good zipcode to use
+        #search_bar.submit() # it asks another question (rent/buy)
+        self.driver.get('https://www.zillow.com/homes/52246_rb/')
+        # should I click on a home?
+
+        # Search on youtube and google for mortgage loan stuff
+
 
     def save_browsing_history(self):
-        print('*********')
         print('save the browsing history for Profile ' + str(self.profile_num) + ': '+ self.personality)
         print('*********')
         self.driver.get('about:support')
         box = self.driver.find_element_by_id('profile-dir-box')
         temp_profile_path = box.text
-        print('copy contents from temp to saved profile')
         print('saving profile ' + temp_profile_path + ' to ' + self.ff_profile_dir)
         os.system('xcopy ' + temp_profile_path + ' ' + self.ff_profile_dir + ' /Y /G /K /R /E /S /C /H /Q')
         print('browsing history copied to permanent location')
 
 
     def end_session(self):
+        print('Ending browsing session')
         self.driver.quit()
         self.driver = None #TODO: is this a good idea?
 
