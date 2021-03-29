@@ -53,7 +53,7 @@ class Profile():
         self.driver = webdriver.Firefox(firefox_profile=self.ff_profile, firefox_binary=self.ff_binary)
 
 
-    def visit_sites(self):
+    def visit_sites(self, save_history=True):
         if self.driver is None:
             self.start_browser()
         if self.profile_num < 5: # profile 5 doesn't build up that browsing history
@@ -61,7 +61,8 @@ class Profile():
             time.sleep(5)
         self.visit_loan_sites()
         time.sleep(5)
-        self.save_browsing_history()
+        if save_history:
+            self.save_browsing_history()
         time.sleep(5)
         self.end_session()
 
@@ -82,16 +83,28 @@ class Profile():
         #        .key_up(Keys.CONTROL) \
         #        .perform()
         print('I have opened a bunch of tabs related to: ' + self.personality)
+        time.sleep(20)
+        window_handles = self.driver.window_handles
+        print('**number of windows open: ' + str(len(window_handles)))
 
     def visit_loan_sites(self):
+        # TODO: probably faster to do all this in new windows so don't have to wait for page to load???
         print('search about loans etc')
-        self.driver.get('https://www.bankrate.com/calculators/mortgages/mortgage-calculator.aspx') # bankrate might be a good fintech lender to look at too
         # visit the site for each financialy institution and navigate to home mortgage
         # Wells Fargo
+        self.driver.get('https://wellsfargo.com')
+        self.driver.get('https://www.wellsfargo.com/home-mortgage')
+        self.driver.get('https://www.wellsfargo.com/mortgage/rates')
 
         # JP Morgan Chase
+        self.driver.get('https://www.chase.com')
+        self.driver.get('https://www.chase.com/personal/mortgage')
+        self.driver.get('https://www.chase.com/personal/mortgage/mortgage-rates')
 
         # Bank of America
+        self.driver.get('https://www.bankofamerica.com')
+        self.driver.get('https://www.bankofamerica.com/mortgage/first-time-home-buyer')
+        self.driver.get('https://www.bankofamerica.com/mortgage/home-mortgage')
 
         # QuickenLoans
         self.driver.get('https://quickenloans.com') # do I need to do any sort of time.sleep on each page?
@@ -100,8 +113,15 @@ class Profile():
         self.driver.get('https://www.rocketmortgage.com/l2/bamv2/step/1?LoanPurpose=purchase&qls=RBA_rocketme.0000000018') # is going to the URL the same as clicking the link?
 
         # LoanDepot
+        self.driver.get('https://www.loandepot.com')
+        self.driver.get('https://www.loandepot.com/buying-a-house')
+        self.driver.get('https://www.loandepot.com/buying-a-house/home-loan-rates')
 
         # United Shore
+        # I'm still not convinced that this is 'Fintech' - also UWM.com is for lenders, not lendees
+        self.driver.get('https://www.uwm.com/')
+        self.driver.get('https://www.uwm.com/price-a-loan/uwm-rates')
+        self.driver.get('https://www.uwm.com/price-a-loan/exclusives/home-value-estimator')
 
         # go to zillow and look at homes
         self.driver.get('https://zillow.com')
@@ -110,8 +130,17 @@ class Profile():
         #search_bar.submit() # it asks another question (rent/buy)
         self.driver.get('https://www.zillow.com/homes/52246_rb/')
         # should I click on a home?
+        self.driver.get('https://www.zillow.com/home-loans')
+        self.driver.get('https://www.zillow.com/mortgage-calculator')
+        self.driver.get('https://google.com')
+        # do google search
+        self.driver.get('https://www.bankrate.com/calculators/mortgages/mortgage-calculator.aspx') # bankrate might be a good fintech lender to look at too
+        self.driver.get('https://www.nerdwallet.com/best/mortgages/mortgage-lenders')
+        self.driver.get('https://loans.usnews.com/mortgage-lenders')
 
         # Search on youtube and google for mortgage loan stuff
+
+        print('Done searching loan stuff')
 
 
     def save_browsing_history(self):

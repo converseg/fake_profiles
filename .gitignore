@@ -1,2 +1,4 @@
 *.log
 Firefox*
+ff_profiles/*
+__pycache__/*
