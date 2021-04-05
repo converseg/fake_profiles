@@ -1,4 +1,5 @@
 import time
+import random
 import os
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -11,9 +12,9 @@ class Profile():
         if profile_num == 0:
             profile_directory = 'C:\\Users\\gconverse\\Desktop\\privacy_law\\project\\fake_profiles\\ff_profiles\\test_profile'
         else:
-            #profile_directory = 'C:\\Users\\gconverse\\Desktop\\privacy_law\\project\\fake_profiles\\ff_profiles\\ff_profile_'+str(self.profile_num) #TODO: uncomment this line
+            profile_directory = 'C:\\Users\\gconverse\\Desktop\\privacy_law\\project\\fake_profiles\\ff_profiles\\ff_profile_'+str(self.profile_num) #TODO: uncomment this line
             # for now, just always use the test profile so I don't screw up browsing histories
-            profile_directory = 'C:\\Users\\gconverse\\Desktop\\privacy_law\\project\\fake_profiles\\ff_profiles\\test_profile' #TODO: remove this line
+            #profile_directory = 'C:\\Users\\gconverse\\Desktop\\privacy_law\\project\\fake_profiles\\ff_profiles\\test_profile' #TODO: remove this line
         self.ff_profile_dir = profile_directory
 
         # personality also indicates the tab to click on at trackthis.link
@@ -37,9 +38,9 @@ class Profile():
             self.ff_version = 87  # used for dev purposes
             self.personality = 'rich'
         #comment this out later -- for development purposes only
-        self.ff_version = 87 # always use FF 87 in development TODO: remove this
-        self.ff_bin_path = 'C:\\Program Files\\Mozilla Firefox\\firefox.exe' #TODO: remove this
-        #self.ff_bin_path = 'C:\\Program Files\\Mozilla Firefox'+self.ff_version+'\\firefox.exe' #TODO: uncomment this line
+        #self.ff_version = 87 # always use FF 87 in development TODO: remove this
+        #self.ff_bin_path = 'C:\\Program Files\\Mozilla Firefox\\firefox.exe' #TODO: remove this
+        self.ff_bin_path = 'C:\\Program Files\\Mozilla Firefox'+str(self.ff_version)+'\\firefox.exe' #TODO: uncomment this line
         self.ff_binary = webdriver.firefox.firefox_binary.FirefoxBinary(firefox_path=self.ff_bin_path)
         # TODO: is it best to make the driver an attribute, or pass it into functions?
         self.driver = None
@@ -86,9 +87,13 @@ class Profile():
         time.sleep(20)
         window_handles = self.driver.window_handles
         print('**number of windows open: ' + str(len(window_handles)))
+        for w in range(len(window_handles)-1):
+            self.driver.switch_to.window(window_handles[w])
+            self.driver.close()
+        self.driver.switch_to_window(self.driver.window_handles[0])
+        time.sleep(10)
 
     def visit_loan_sites(self):
-        # TODO: probably faster to do all this in new windows so don't have to wait for page to load???
         print('search about loans etc')
         # visit the site for each financialy institution and navigate to home mortgage
         # Wells Fargo
@@ -117,28 +122,42 @@ class Profile():
         self.driver.get('https://www.loandepot.com/buying-a-house')
         self.driver.get('https://www.loandepot.com/buying-a-house/home-loan-rates')
 
-        # United Shore
-        # I'm still not convinced that this is 'Fintech' - also UWM.com is for lenders, not lendees
-        self.driver.get('https://www.uwm.com/')
-        self.driver.get('https://www.uwm.com/price-a-loan/uwm-rates')
-        self.driver.get('https://www.uwm.com/price-a-loan/exclusives/home-value-estimator')
+        # Caliber
+        self.driver.get('https://caliberhomeloans.com')
+        self.driver.get('https://www.caliberhomeloans.com/get-started/buy/')
+        self.driver.get('https://www.caliberhomeloans.com/learn/educational-resources/first-time-home-buying-guide/')
 
         # go to zillow and look at homes
         self.driver.get('https://zillow.com')
-        search_bar = self.driver.find_element_by_class_name('react-autosuggest__container.num-rows-5')
-        #search_bar.send_keys('52246') # TODO: find out a good zipcode to use
+        #search_bar = self.driver.find_element_by_class_name('react-autosuggest__container.num-rows-5')
+        #search_bar.send_keys('52246') 
         #search_bar.submit() # it asks another question (rent/buy)
         self.driver.get('https://www.zillow.com/homes/52246_rb/')
         # should I click on a home?
         self.driver.get('https://www.zillow.com/home-loans')
         self.driver.get('https://www.zillow.com/mortgage-calculator')
         self.driver.get('https://google.com')
+
         # do google search
-        self.driver.get('https://www.bankrate.com/calculators/mortgages/mortgage-calculator.aspx') # bankrate might be a good fintech lender to look at too
+        self.driver.get('https://www.bankrate.com/calculators/mortgages/mortgage-calculator.aspx') 
         self.driver.get('https://www.nerdwallet.com/best/mortgages/mortgage-lenders')
         self.driver.get('https://loans.usnews.com/mortgage-lenders')
 
-        # Search on youtube and google for mortgage loan stuff
+        # Search on youtube
+        self.driver.get('https://youtube.com')
+        yt_search = self.driver.find_elements_by_name('search_query')[0]
+        yt_search.send_keys('best home mortgage lenders')
+        yt_search.submit()
+        time.sleep(5)
+        videos = self.driver.find_elements_by_id('video-title')
+        videos[random.randrange(3)].click()
+        self.driver.get('https://youtube.com')
+        yt_search = self.driver.find_elements_by_name('search_query')[0]
+        yt_search.send_keys('how to buy a house')
+        yt_search.submit()
+        time.sleep(5)
+        videos = self.driver.find_elements_by_id('video-title')
+        videos[random.randrange(3)].click()
 
         print('Done searching loan stuff')
 

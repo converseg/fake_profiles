@@ -16,11 +16,13 @@ def main():
     # run this each day for a week
     for i in range(num_profiles):
         profile_num = i+1
+        print('$$$$$$$$$$$$$$$$$$')
         print('PROFILE ' + str(profile_num) + '\n $$$$$$$$$$$$$$$$')
         print('Saving History: ' + str(save_history))
         current_profile = Profile(profile_num)
         current_profile.visit_sites(save_history=save_history)
-        time.sleep(10)
+        time.sleep(15)
+        print('\n \n')
     end = time.time()
     print(end - start) # including time.sleep()'s, one run took about 600s (10 min)
     # took 1600 seconds last time -- larger browsing history takes a while to load
