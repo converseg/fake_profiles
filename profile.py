@@ -148,14 +148,15 @@ class Profile():
         yt_search = self.driver.find_elements_by_name('search_query')[0]
         yt_search.send_keys('best home mortgage lenders')
         yt_search.submit()
-        time.sleep(5)
+        time.sleep(3)
         videos = self.driver.find_elements_by_id('video-title')
         videos[random.randrange(3)].click()
+        time.sleep(5)
         self.driver.get('https://youtube.com')
         yt_search = self.driver.find_elements_by_name('search_query')[0]
         yt_search.send_keys('how to buy a house')
         yt_search.submit()
-        time.sleep(5)
+        time.sleep(3)
         videos = self.driver.find_elements_by_id('video-title')
         videos[random.randrange(3)].click()
 
